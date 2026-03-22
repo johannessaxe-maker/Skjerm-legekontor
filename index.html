@@ -347,6 +347,14 @@
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
+  <script>
+  if (window.location.hash && (
+    window.location.hash.includes('invite_token') ||
+    window.location.hash.includes('recovery_token')
+  )) {
+    window.location.replace('/admin/' + window.location.hash);
+  }
+  </script>
 
 <!-- Infomelding — gul linje øverst, skjult som standard -->
 <div class="info-banner" id="infoBanner"></div>
