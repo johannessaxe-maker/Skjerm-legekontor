@@ -1,6 +1,5 @@
 backend:
-  name: github
-  repo: johannessaxe-maker/Skjerm-legekontor
+  name: git-gateway
   branch: main
 
 publish_mode: editorial_workflow
