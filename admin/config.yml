@@ -1,1 +1,112 @@
+backend:
+  name: git-gateway
+  branch: main
 
+publish_mode: editorial_workflow
+
+media_folder: bilder
+public_folder: bilder
+
+collections:
+
+  # ── SLIDES ────────────────────────────────────────────────
+  - name: slides
+    label: Slides
+    label_singular: Slide
+    files:
+      - name: alle_slides
+        label: Alle slides
+        file: slides.json
+        fields:
+          - name: slides
+            label: Slides
+            label_singular: Slide
+            widget: list
+            fields:
+              - name: type
+                label: Type
+                widget: select
+                options:
+                  - { label: "Tekst på fargebakgrunn", value: "info" }
+                  - { label: "Kun bilde (fyller hele flaten)", value: "image" }
+                  - { label: "Bilde med tekst oppå", value: "image-text" }
+                default: info
+
+              - name: tag
+                label: Etikett (liten tekst øverst)
+                widget: string
+                required: false
+                hint: "F.eks. «Informasjon» eller «Tilbud». Vises bare på tekst-slides."
+
+              - name: title
+                label: Tittel
+                widget: string
+                required: false
+
+              - name: body
+                label: Brødtekst
+                widget: text
+                required: false
+
+              - name: image
+                label: Bilde
+                widget: image
+                required: false
+                hint: "Last opp bilde her. Brukes for type «Kun bilde» og «Bilde med tekst»."
+
+              - name: bg
+                label: Bakgrunnsfarge (CSS gradient)
+                widget: string
+                required: false
+                default: "linear-gradient(135deg,#0d2137,#1a3a5c)"
+                hint: "Kun for type «Tekst på fargebakgrunn»."
+
+  # ── HELSETIPS / TICKER ────────────────────────────────────
+  - name: tips
+    label: "Helse & Tips (ticker-linje)"
+    files:
+      - name: alle_tips
+        label: Alle tips
+        file: tips.json
+        fields:
+          - name: tips
+            label: Tips
+            label_singular: Tips
+            widget: list
+            field:
+              name: tekst
+              label: Tekst
+              widget: string
+              hint: "Kort, selvstendig tips som ruller i bunnen av skjermen."
+
+  # ── DRIFTSMELDING ─────────────────────────────────────────
+  - name: driftsmelding
+    label: Driftsmelding
+    files:
+      - name: driftsmelding
+        label: Aktiv melding
+        file: driftsmelding.json
+        fields:
+          - name: type
+            label: Type melding
+            widget: select
+            options:
+              - { label: "Ingen melding — normal drift", value: "ingen" }
+              - { label: "Infomelding (gul linje øverst)", value: "info" }
+              - { label: "Driftsmelding (tar over hele skjermen)", value: "drift" }
+            default: ingen
+            hint: "Velg 'Ingen melding' for å skru av meldingen igjen."
+
+          - name: melding
+            label: Melding
+            widget: string
+            hint: "F.eks. «Legen er forsinket ca. 20 min» eller «Journalsystemet er nede i dag»."
+            required: false
+
+          - name: dato
+            label: Dato meldingen gjelder
+            widget: datetime
+            format: "YYYY-MM-DD"
+            date_format: "DD.MM.YYYY"
+            time_format: false
+            hint: "Meldingen forsvinner automatisk kl. 16:00 denne dagen."
