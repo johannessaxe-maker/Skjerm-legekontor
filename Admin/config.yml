@@ -1,9 +1,8 @@
 backend:
   name: github
-  repo: DITT-BRUKERNAVN/legekontor-skjerm   # <-- bytt ut med ditt GitHub-brukernavn/repo
+  repo: johannessaxe-maker/Skjerm-legekontor
   branch: main
 
-# Netlify Identity brukes for innlogging
 publish_mode: editorial_workflow
 
 media_folder: bilder
@@ -61,11 +60,11 @@ collections:
                 widget: string
                 required: false
                 default: "linear-gradient(135deg,#0d2137,#1a3a5c)"
-                hint: "Kun for type «Tekst på fargebakgrunn». Behold standardverdien eller bruk en CSS gradient."
+                hint: "Kun for type «Tekst på fargebakgrunn»."
 
   # ── HELSETIPS / TICKER ────────────────────────────────────
   - name: tips
-    label: Helse & Tips (ticker-linje)
+    label: "Helse & Tips (ticker-linje)"
     files:
       - name: alle_tips
         label: Alle tips
@@ -79,4 +78,36 @@ collections:
               name: tekst
               label: Tekst
               widget: string
-              hint: "Skriv ett kort, selvstendig tips. Det ruller nedover på skjermen."
+              hint: "Kort, selvstendig tips som ruller i bunnen av skjermen."
+
+  # ── DRIFTSMELDING ─────────────────────────────────────────
+  - name: driftsmelding
+    label: Driftsmelding
+    files:
+      - name: driftsmelding
+        label: Aktiv melding
+        file: driftsmelding.json
+        fields:
+          - name: type
+            label: Type melding
+            widget: select
+            options:
+              - { label: "Ingen melding — normal drift", value: "ingen" }
+              - { label: "Infomelding (gul linje øverst)", value: "info" }
+              - { label: "Driftsmelding (tar over hele skjermen)", value: "drift" }
+            default: ingen
+            hint: "Velg 'Ingen melding' for å skru av meldingen igjen."
+
+          - name: melding
+            label: Melding
+            widget: string
+            hint: "F.eks. «Legen er forsinket ca. 20 min» eller «Journalsystemet er nede i dag»."
+            required: false
+
+          - name: dato
+            label: Dato meldingen gjelder
+            widget: datetime
+            format: "YYYY-MM-DD"
+            date_format: "DD.MM.YYYY"
+            time_format: false
+            hint: "Meldingen forsvinner automatisk kl. 16:00 denne dagen."
