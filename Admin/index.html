@@ -4,9 +4,18 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rediger infoskjerm</title>
+  <script>
+    // Hvis vi er på GitHub Pages, redirect til Netlify-versjonen av admin
+    // Hvis vi allerede er på Netlify, last Decap CMS som normalt
+    const NETLIFY_ADMIN = 'https://hilarious-jelly-8d3080.netlify.app/admin/';
+    const isNetlify = window.location.hostname.includes('netlify.app');
+    if (!isNetlify) {
+      window.location.replace(NETLIFY_ADMIN);
+    }
+  </script>
 </head>
 <body>
-  <!-- Decap CMS -->
+  <!-- Kun lastet på Netlify — på GitHub Pages skjer redirect over -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </body>
 </html>
