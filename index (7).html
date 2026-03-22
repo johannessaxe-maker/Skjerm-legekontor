@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legekontor Infoskjerm</title>
+<style>
+
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #0d1b2a;
+    --surface: #132237;
+    --surface2: #1a2e47;
+    --accent: #4a9eed;
+    --accent2: #2ecc8f;
+    --text: #e8f0f8;
+    --text-muted: #8aa4bf;
+    --border: rgba(74,158,237,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+  }
+
+  /* ===== MAIN ROW ===== */
+  .main {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    overflow: hidden;
+  }
+
+  /* ===== SLIDESHOW ===== */
+  .slideshow {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px;
+    opacity: 0;
+    transform: scale(1.02);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    text-align: center;
+  }
+  .slide.active { opacity: 1; transform: scale(1); }
+
+  .slide-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.35);
+  }
+
+  .slide-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+  }
+
+  .slide-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 20px;
+    padding: 4px 14px;
+    margin-bottom: 20px;
+  }
+
+  .slide h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.15;
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  }
+
+  .slide p {
+    font-size: clamp(1rem, 1.8vw, 1.3rem);
+    color: rgba(255,255,255,0.85);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .slide-progress {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 3px;
+    background: var(--accent);
+    width: 0%;
+    z-index: 10;
+    transition: width linear;
+  }
+
+  .slide-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+  }
+
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transition: background 0.3s, transform 0.3s;
+    cursor: pointer;
+  }
+  .dot.active { background: var(--accent); transform: scale(1.3); }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .widget-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .clock-widget {
+    padding: 24px 20px 18px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .time {
+    font-family: 'DM Serif Display', serif;
+    font-size: 3.4rem;
+    letter-spacing: -2px;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .date {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    text-transform: capitalize;
+  }
+
+  .weather-widget {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .weather-main { display: flex; align-items: center; gap: 10px; }
+  .weather-icon { font-size: 2.4rem; }
+
+  .weather-temp {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .weather-desc { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; }
+  .weather-details { display: flex; gap: 12px; margin-top: 10px; }
+  .weather-detail { font-size: 0.72rem; color: var(--text-muted); }
+
+  .radio-widget { padding: 16px 20px; }
+
+  .radio-player { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+
+  .radio-btn {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.1s;
+    flex-shrink: 0;
+  }
+  .radio-btn:hover { background: #5baef5; transform: scale(1.05); }
+  .radio-btn svg { width: 15px; height: 15px; fill: white; }
+  .radio-info { flex: 1; min-width: 0; }
+  .radio-name { font-weight: 600; font-size: 0.85rem; color: #fff; }
+  .radio-status { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; display: flex; align-items: center; gap: 5px; }
+
+  .radio-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #ccc;
+    flex-shrink: 0;
+  }
+  .radio-dot.live { background: var(--accent2); animation: pulse 1.5s infinite; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .volume-row { display: flex; align-items: center; gap: 6px; margin-top: 10px; }
+  .volume-row span { font-size: 0.75rem; color: var(--text-muted); }
+
+  input[type=range] {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--surface2);
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 13px; height: 13px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+  }
+
+  /* ===== TICKER BAR ===== */
+  .ticker-bar {
+    height: 54px;
+    flex-shrink: 0;
+    background: var(--surface2);
+    border-top: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .ticker-label {
+    background: var(--accent);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .ticker-track {
+    flex: 1;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .ticker-content {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    will-change: transform;
+  }
+
+  .ticker-item {
+    font-size: 1rem;
+    color: var(--text);
+    white-space: nowrap;
+    padding: 0 60px;
+    flex-shrink: 0;
+  }
+
+  .ticker-sep { color: var(--accent); flex-shrink: 0; }
+
+
+</style>
+</head>
+<body>
+
+
+
+<div class="main">
+  <div class="slideshow" id="slideshow">
+    <div class="slide-progress" id="progressBar"></div>
+    <div class="slide-dots" id="dots"></div>
+  </div>
+
+  <div class="sidebar">
+    <div class="clock-widget">
+      <div class="time" id="clock">--:--</div>
+      <div class="date" id="dateStr">Laster...</div>
+    </div>
+
+    <div class="weather-widget">
+      <div class="widget-label">🌤 Vær — Ågotnes</div>
+      <div class="weather-main">
+        <div class="weather-icon" id="wxIcon">⏳</div>
+        <div>
+          <div class="weather-temp" id="wxTemp">--°</div>
+          <div class="weather-desc" id="wxDesc">Henter...</div>
+        </div>
+      </div>
+      <div class="weather-details" id="wxDetails"></div>
+    </div>
+
+    <div class="radio-widget">
+      <div class="widget-label">📻 Radio</div>
+      <div class="radio-player">
+        <button class="radio-btn" id="radioBtn" onclick="toggleRadio()">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <div class="radio-info">
+          <div class="radio-name">NRK P1</div>
+          <div class="radio-status">
+            <div class="radio-dot" id="radioDot"></div>
+            <span id="radioStatus">Klikk for å starte</span>
+          </div>
+        </div>
+      </div>
+      <div class="volume-row">
+        <span>🔈</span>
+        <input type="range" id="volSlider" min="0" max="100" value="70" oninput="setVolume(this.value)">
+        <span>🔊</span>
+      </div>
+      <audio id="radioAudio" preload="none"></audio>
+    </div>
+  </div>
+</div>
+
+<div class="ticker-bar">
+  <div class="ticker-label">Helse &amp; Tips</div>
+  <div class="ticker-track">
+    <div class="ticker-content" id="tickerContent">
+      <span class="ticker-item">Laster nyheter...</span>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ─────────────────────────────────────────────
+// KONFIGURASJON
+// ─────────────────────────────────────────────
+const SLIDE_MS   = 8000;   // sekunder per slide (i millisekunder)
+const TICKER_SPEED = 80;   // ticker-hastighet i piksler per sekund
+
+// ─────────────────────────────────────────────
+// OPPSTART — hent slides og tips fra JSON-filer
+// ─────────────────────────────────────────────
+let slides = [];
+let currentSlide = 0;
+let slideTimer = null;
+const audio = document.getElementById('radioAudio');
+
+async function init() {
+  try {
+    const [slidesRes, tipsRes] = await Promise.all([
+      fetch('slides.json?v=' + Date.now()),
+      fetch('tips.json?v=' + Date.now())
+    ]);
+    const slidesData = await slidesRes.json();
+    const tipsData   = await tipsRes.json();
+    slides = slidesData.slides || [];
+    const tips = tipsData.tips || [];
+    buildSlides();
+    resetProgress();
+    setTickerItems(tips);
+  } catch(e) {
+    console.error('Kunne ikke laste innhold:', e);
+    // Fallback hvis JSON-filer mangler
+    slides = [{
+      type: 'info',
+      tag: 'Info',
+      title: 'Kunne ikke laste innhold',
+      body: 'Sjekk at slides.json og tips.json finnes i samme mappe.',
+      bg: 'linear-gradient(135deg,#1a0808,#2a0d0d)'
+    }];
+    buildSlides();
+    resetProgress();
+    setTickerItems(['Legevakt: 116 117', 'Ambulanse: 113']);
+  }
+}
+
+// ─────────────────────────────────────────────
+// KLOKKE
+// ─────────────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent =
+    String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+  const days   = ['Søndag','Mandag','Tirsdag','Onsdag','Torsdag','Fredag','Lørdag'];
+  const months = ['jan','feb','mar','apr','mai','jun','jul','aug','sep','okt','nov','des'];
+  document.getElementById('dateStr').textContent =
+    days[now.getDay()] + ' ' + now.getDate() + '. ' + months[now.getMonth()];
+}
+updateClock();
+setInterval(updateClock, 10000);
+
+// ─────────────────────────────────────────────
+// VÆR (MET Norway — Ågotnes)
+// ─────────────────────────────────────────────
+async function fetchWeather() {
+  const icons = { clearsky:'☀️',fair:'🌤',partlycloudy:'⛅',cloudy:'☁️',fog:'🌫️',lightrain:'🌦',rain:'🌧',heavyrain:'🌧',sleet:'🌨',snow:'❄️',snowshowers:'🌨',thunder:'⛈️',lightrainshowers:'🌦',rainshowers:'🌦' };
+  const descs = { clearsky:'Klarvær',fair:'Lettskyet',partlycloudy:'Delvis skyet',cloudy:'Overskyet',fog:'Tåke',lightrain:'Lett regn',rain:'Regn',heavyrain:'Kraftig regn',sleet:'Sludd',snow:'Snø',snowshowers:'Snøbyger',thunder:'Tordenvær',lightrainshowers:'Regnbyger',rainshowers:'Regnbyger' };
+  try {
+    const res  = await fetch('https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=60.39&lon=5.01&altitude=5', { headers:{'User-Agent':'LegekontoretInfoskjerm/1.0'} });
+    const data = await res.json();
+    const row  = data.properties.timeseries[0];
+    const inst = row.data.instant.details;
+    const next = row.data.next_1_hours || row.data.next_6_hours;
+    const sym  = (next?.summary?.symbol_code||'clearsky').replace(/_day|_night|_polartwilight/,'');
+    document.getElementById('wxIcon').textContent = icons[sym] || '🌡️';
+    document.getElementById('wxTemp').textContent = Math.round(inst.air_temperature) + '°C';
+    document.getElementById('wxDesc').textContent = descs[sym] || sym;
+    document.getElementById('wxDetails').innerHTML =
+      '<div class="weather-detail">💨 ' + Math.round(inst.wind_speed) + ' m/s</div>' +
+      '<div class="weather-detail">💧 ' + Math.round(inst.relative_humidity) + '%</div>';
+  } catch(e) { document.getElementById('wxDesc').textContent = 'Utilgjengelig'; }
+}
+fetchWeather();
+setInterval(fetchWeather, 600000);
+
+// ─────────────────────────────────────────────
+// RADIO — NRK P1
+// ─────────────────────────────────────────────
+audio.volume = 0.70;
+let radioState = 'stopped';
+function toggleRadio() { radioState === 'stopped' || radioState === 'error' ? startRadio() : stopRadio(); }
+function startRadio() {
+  radioState = 'buffering'; updateRadioUI();
+  audio.src = 'https://lyd.nrk.no/nrk_radio_p1_ostlandssendingen_mp3_h';
+  audio.load();
+  audio.play()
+    .then(() => { radioState='playing'; updateRadioUI(); })
+    .catch(() => { radioState='error'; updateRadioUI(); });
+}
+function stopRadio() { audio.pause(); audio.src=''; radioState='stopped'; updateRadioUI(); }
+function updateRadioUI() {
+  const btn    = document.getElementById('radioBtn');
+  const dot    = document.getElementById('radioDot');
+  const status = document.getElementById('radioStatus');
+  if (radioState === 'playing') {
+    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+    dot.classList.add('live'); status.textContent = 'Direktesending';
+  } else {
+    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+    dot.classList.remove('live');
+    status.textContent = radioState==='buffering' ? 'Kobler til...' : radioState==='error' ? 'Tilkoblingsfeil' : 'Klikk for å starte';
+  }
+}
+function setVolume(v) { audio.volume = v / 100; }
+
+// ─────────────────────────────────────────────
+// TICKER
+// ─────────────────────────────────────────────
+let tickerX = 0, tickerHalfW = 0, tickerRAF = null, tickerLastTime = null;
+
+function buildTickerItems(items) {
+  return items.map(t => '<span class="ticker-item">' + t + '</span><span class="ticker-sep">&nbsp;◆&nbsp;</span>').join('');
+}
+
+function startTicker() {
+  const tc = document.getElementById('tickerContent');
+  tickerHalfW = tc.scrollWidth / 2;
+  tickerX = 0;
+  tc.style.transform = 'translateX(0px)';
+  if (tickerRAF) cancelAnimationFrame(tickerRAF);
+  tickerLastTime = null;
+  function step(ts) {
+    if (!tickerLastTime) tickerLastTime = ts;
+    const dt = (ts - tickerLastTime) / 1000;
+    tickerLastTime = ts;
+    tickerX -= TICKER_SPEED * dt;
+    if (Math.abs(tickerX) >= tickerHalfW) tickerX += tickerHalfW;
+    tc.style.transform = 'translateX(' + tickerX + 'px)';
+    tickerRAF = requestAnimationFrame(step);
+  }
+  tickerRAF = requestAnimationFrame(step);
+}
+
+function setTickerItems(items) {
+  const tc = document.getElementById('tickerContent');
+  const single = buildTickerItems(items);
+  tc.innerHTML = single + single;
+  requestAnimationFrame(() => startTicker());
+}
+
+// ─────────────────────────────────────────────
+// SLIDESHOW
+// ─────────────────────────────────────────────
+function buildSlides() {
+  const container = document.getElementById('slideshow');
+  container.querySelectorAll('.slide').forEach(s => s.remove());
+  slides.forEach((slide, i) => {
+    const el = document.createElement('div');
+    el.className = 'slide' + (i === 0 ? ' active' : '');
+    if (slide.type === 'image') {
+      el.innerHTML =
+        '<div class="slide-bg" style="background-image:url(' + JSON.stringify(slide.image) + ');filter:brightness(1)"></div>';
+    } else if (slide.type === 'image-text') {
+      el.innerHTML =
+        '<div class="slide-bg" style="background-image:url(' + JSON.stringify(slide.image) + ')"></div>' +
+        '<div class="slide-content">' +
+          (slide.tag ? '<div class="slide-tag">' + slide.tag + '</div>' : '') +
+          '<h2>' + (slide.title || '') + '</h2>' +
+          (slide.body ? '<p>' + slide.body + '</p>' : '') +
+        '</div>';
+    } else {
+      el.innerHTML =
+        '<div class="slide-bg" style="background:' + (slide.bg || 'linear-gradient(135deg,#0d2137,#1a3a5c)') + '"></div>' +
+        '<div class="slide-content">' +
+          (slide.tag ? '<div class="slide-tag">' + slide.tag + '</div>' : '') +
+          '<h2>' + (slide.title || '') + '</h2>' +
+          (slide.body ? '<p>' + slide.body + '</p>' : '') +
+        '</div>';
+    }
+    container.insertBefore(el, document.getElementById('progressBar'));
+  });
+  document.getElementById('dots').innerHTML = slides.map((_,i) =>
+    '<div class="dot' + (i===0?' active':'') + '" onclick="goTo(' + i + ')"></div>'
+  ).join('');
+}
+
+function goTo(n) {
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.slide')[n]?.classList.add('active');
+  document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i===n));
+  currentSlide = n;
+  resetProgress();
+}
+
+function nextSlide() { currentSlide = (currentSlide+1) % slides.length; goTo(currentSlide); }
+
+function resetProgress() {
+  const bar = document.getElementById('progressBar');
+  bar.style.transition = 'none'; bar.style.width = '0%';
+  clearTimeout(slideTimer);
+  setTimeout(() => {
+    bar.style.transition = 'width ' + SLIDE_MS + 'ms linear';
+    bar.style.width = '100%';
+  }, 30);
+  slideTimer = setTimeout(nextSlide, SLIDE_MS);
+}
+
+// ─────────────────────────────────────────────
+// START
+// ─────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>

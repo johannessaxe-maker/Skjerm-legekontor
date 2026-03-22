@@ -1,0 +1,32 @@
+{
+  "slides": [
+    {
+      "type": "info",
+      "tag": "Velkommen",
+      "title": "Velkommen til legekontoret",
+      "body": "Vennligst sjekk inn i resepsjonen når du ankommer. Vi vil hjelpe deg så snart som mulig.",
+      "bg": "linear-gradient(135deg,#0d2137,#1a3a5c)"
+    },
+    {
+      "type": "info",
+      "tag": "Timebestilling",
+      "title": "Bestill time enkelt på nett",
+      "body": "Gå til helsenorge.no eller ring resepsjonen for å bestille, endre eller avbestille time.",
+      "bg": "linear-gradient(135deg,#0d2137,#1e3d2a)"
+    },
+    {
+      "type": "info",
+      "tag": "Informasjon",
+      "title": "Husk å ta med gyldig legitimasjon",
+      "body": "For å motta helsehjelp trenger vi å bekrefte din identitet. Husk bankkort eller pass.",
+      "bg": "linear-gradient(135deg,#1a1a2e,#16213e)"
+    },
+    {
+      "type": "info",
+      "tag": "Akutthjelp",
+      "title": "Ved akutt hjelp",
+      "body": "Ring legevakt på 116 117 eller ambulanse på 113. Kontakt alltid resepsjonen dersom du trenger hjelp nå.",
+      "bg": "linear-gradient(135deg,#2a0d0d,#1a0808)"
+    }
+  ]
+}
