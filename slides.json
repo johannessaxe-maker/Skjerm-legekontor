@@ -18,6 +18,39 @@
       "type": "image",
       "bg": "linear-gradient(135deg,#0d2137,#1a3a5c)",
       "image": "bilder/skjermbilde-2026-03-23-083809.png"
+    },
+    {
+      "type": "info",
+      "bg": "linear-gradient(135deg,#0d2137,#1a3a5c)",
+      "tag": "Ventetid",
+      "title": "Ventetid",
+      "body": "Ågotnes Legekontor er en del av akuttberedskapen i Øygarden kommune\n\nDette kan i perioder medføre ekstra ventetid\n\nHar du ikke tid å vente? Gi beskjed."
+    },
+    {
+      "type": "image",
+      "bg": "linear-gradient(135deg,#0d2137,#1a3a5c)",
+      "image": "bilder/timebestilling.png"
+    },
+    {
+      "type": "info",
+      "bg": "linear-gradient(135deg,#0d2137,#1a3a5c)",
+      "tag": "Leger",
+      "title": "Leger på kontoret",
+      "body": "Lege Thomas Bøe, spesialist i allmenmedisin \nLege Stig Guntveit, spesialist i allmennmedisin. Vikar for Stig på onsdager og fredager: Lege Elmer Edward\nLege Zein Ahmad\nLege Ane Zakariassen Rong\nLege Johannes Saxe. Vikar for Johannes på onsdager fra 01.04.2026\n"
+    },
+    {
+      "type": "info",
+      "bg": "linear-gradient(135deg,#0d2137,#1a3a5c)",
+      "tag": "Laboratoriet",
+      "title": "Åpningstider for laboratoriet",
+      "body": "mandag – fredag  \n08.15 til 11.00\n13.00 til 14.00\n\nSKAL DU KUN TA PRØVER? GI BESKED I LUKEN FOR Å REGISTRERE DEG\n-Laboratoriet har eget køsystem, du blir registrert hos lege eller i luken\nNB! Fredager må sendeprøver tas før 11.00. (sendes til laboratoriet på Haukeland eller Haraldsplass)"
+    },
+    {
+      "type": "info",
+      "bg": "linear-gradient(135deg,#0d2137,#1a3a5c)",
+      "tag": "Priser",
+      "title": "Prisliste for attester/erklæringer",
+      "body": "Førerkort attest, alle klasser: 850 kr\nBekreftelser og Legeerklæringer Korte. (bl.a. ved skolefravær): 250 kr\n\nFor ytterligere attester se utfyllende liste på kontoret"
     }
   ]
 }
