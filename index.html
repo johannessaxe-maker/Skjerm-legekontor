@@ -644,7 +644,7 @@ function buildSlides() {
         '<div class="slide-content">' +
           (slide.tag   ? '<div class="slide-tag">' + slide.tag + '</div>' : '') +
           '<h2>' + (slide.title || '') + '</h2>' +
-          (slide.body  ? '<p>' + slide.body + '</p>' : '') +
+          (slide.body  ? '<p>' + slide.body.replace(/\n/g, '<br>') + '</p>' : '') +
         '</div>';
     } else {
       el.innerHTML =
@@ -652,7 +652,7 @@ function buildSlides() {
         '<div class="slide-content">' +
           (slide.tag   ? '<div class="slide-tag">' + slide.tag + '</div>' : '') +
           '<h2>' + (slide.title || '') + '</h2>' +
-          (slide.body  ? '<p>' + slide.body + '</p>' : '') +
+          (slide.body  ? '<p>' + slide.body.replace(/\n/g, '<br>') + '</p>' : '') +
         '</div>';
     }
     container.insertBefore(el, document.getElementById('progressBar'));
