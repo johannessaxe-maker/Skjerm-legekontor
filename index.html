@@ -344,17 +344,8 @@
   .ticker-item { font-size: 1rem; color: var(--text); white-space: nowrap; padding: 0 60px; flex-shrink: 0; }
   .ticker-sep { color: var(--accent); flex-shrink: 0; }
 </style>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
-  <script>
-  if (window.location.hash && (
-    window.location.hash.includes('invite_token') ||
-    window.location.hash.includes('recovery_token')
-  )) {
-    window.location.replace('/admin/' + window.location.hash);
-  }
-  </script>
 
 <!-- Infomelding — gul linje øverst, skjult som standard -->
 <div class="info-banner" id="infoBanner"></div>
@@ -570,7 +561,7 @@ function toggleRadio() { radioState === 'stopped' || radioState === 'error' ? st
 
 function startRadio() {
   radioState = 'buffering'; updateRadioUI();
-  audio.src = 'https://lyd.nrk.no/nrk_radio_p1_ostlandssendingen_mp3_h';
+  audio.src = 'https://lyd.nrk.no/nrk_radio_p1_aac_h.m3u8';
   audio.load();
   audio.play()
     .then(() => { radioState = 'playing'; updateRadioUI(); })
@@ -645,11 +636,11 @@ function buildSlides() {
     const el = document.createElement('div');
     el.className = 'slide' + (i === 0 ? ' active' : '');
     if (slide.type === 'image') {
-      el.innerHTML =
-        '<div class="slide-bg" style="background-image:url(' + JSON.stringify(slide.image) + ');filter:brightness(1)"></div>';
+      el.style.background = 'url(' + slide.image + ') center/cover no-repeat';
+      el.innerHTML = '';
     } else if (slide.type === 'image-text') {
       el.innerHTML =
-        '<div class="slide-bg" style="background-image:url(' + JSON.stringify(slide.image) + ')"></div>' +
+        '<div class="slide-bg" style="background-image:url(' + slide.image + ');filter:brightness(0.5)"></div>' +
         '<div class="slide-content">' +
           (slide.tag   ? '<div class="slide-tag">' + slide.tag + '</div>' : '') +
           '<h2>' + (slide.title || '') + '</h2>' +
@@ -692,6 +683,20 @@ function resetProgress() {
   }, 30);
   slideTimer = setTimeout(nextSlide, SLIDE_MS);
 }
+</script>
+
+<!-- Netlify Identity — fanger opp invite-token uansett hvilken side du lander på -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on('init', user => {
+      if (!user) {
+        window.netlifyIdentity.on('login', () => {
+          document.location.href = '/admin/';
+        });
+      }
+    });
+  }
 </script>
 </body>
 </html>
