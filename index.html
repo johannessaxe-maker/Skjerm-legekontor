@@ -341,7 +341,7 @@
     will-change: transform;
   }
 
-  .ticker-item { font-size: 1rem; color: var(--text); white-space: nowrap; padding: 0 60px; flex-shrink: 0; }
+  .ticker-item { font-size: 1.3rem; color: var(--text); white-space: nowrap; padding: 0 60px; flex-shrink: 0; }
   .ticker-sep { color: var(--accent); flex-shrink: 0; }
 </style>
 </head>
@@ -418,8 +418,8 @@
 
 <script>
 const SLIDE_MS     = 8000;
-const TICKER_SPEED = 80;
-const REFRESH_MS   = 60000; // sjekk JSON-filer hvert 30. sek
+const TICKER_SPEED = 40;
+const REFRESH_MS   = 60000; // sjekk JSON-filer hvert 60. sek
 
 let slides = [];
 let currentSlide = 0;
