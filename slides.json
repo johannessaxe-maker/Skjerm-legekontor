@@ -51,6 +51,14 @@
       "tag": "Priser",
       "title": "Prisliste for attester/erklæringer",
       "body": "Førerkort attest, alle klasser: 850 kr\nBekreftelser og Legeerklæringer Korte. (bl.a. ved skolefravær): 250 kr\n\nFor ytterligere attester se utfyllende liste på kontoret"
+    },
+    {
+      "type": "info",
+      "bg": "linear-gradient(135deg,#0d2137,#1a3a5c)"
+    },
+    {
+      "type": "info",
+      "bg": "linear-gradient(135deg,#0d2137,#1a3a5c)"
     }
   ]
 }
