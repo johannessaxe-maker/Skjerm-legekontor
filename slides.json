@@ -17,7 +17,8 @@
     {
       "type": "image",
       "bg": "linear-gradient(135deg,#0d2137,#1a3a5c)",
-      "image": "bilder/skjermbilde-2026-03-23-083809.png"
+      "image": "bilder/skjermbilde-2026-03-23-083809.png",
+      "body": "Influensavaksinen for høsten 2026 er forsinket fra FHI. Kommunen får ikke vaksinene før i uke 46. FHI har gjort vurderinger og sier at det er trygt å vente med å ta vaksinen til kommunen får dem og en trenger ikke å gå på apoteket som allerede har fått vaksinene. Dette er basert på at smitten med influensa ikke bruker å komme før nærmere jul med en topp i januar. Siden vaksinen gir best vern de første månedene etter at den er satt, kan en risikere at vernet har blitt dårligere om smittetoppen kommer sent i januar dersom en har tatt vaksinen tidlig i oktober. \nDu kan lese mer om det på FHI sine nettsider: \"Influensavaksinen til vaksinasjonsprogrammet er forsinket\"\n"
     },
     {
       "type": "info",
@@ -36,7 +37,7 @@
       "bg": "linear-gradient(135deg,#0d2137,#1a3a5c)",
       "tag": "Leger",
       "title": "Leger på kontoret",
-      "body": "Lege Thomas Bøe, spesialist i allmenmedisin \nLege Stig Guntveit, spesialist i allmennmedisin. Vikar for Stig på onsdager og fredager: Antonia Arildsen\nLege Zein Ahmad\nLege Ane Zakariassen Rong\nLege Johannes Saxe. Vikar for Johannes på onsdager fra 01.04.2026: Lege Elmer Edward\n"
+      "body": "Lege Thomas Bøe, spesialist i allmenmedisin - har vikarlege, dr. Stig Guntveit 50 % (tirsdag og torsdag) og dr. Elmer Edward 50% (onsdag og fredag)\nLege Antonia Arildsen\nLege Zein Ahmad\nLege Ane Zakariassen Rong - har vikarlege, dr. Michael Holm 100% \nLege Johannes Saxe\n"
     },
     {
       "type": "info",
